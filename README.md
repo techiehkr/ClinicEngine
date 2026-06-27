@@ -11,7 +11,7 @@ ASP.NET Core 8, SQL Server, EF Core 8, MediatR, FluentValidation, xUnit
 
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/ClinicEngine.git
+git clone https://github.com/techiehkr/ClinicEngine.git
 cd ClinicEngine
 dotnet restore
 ```
