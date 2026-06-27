@@ -65,4 +65,5 @@ public interface IDepartmentRepository
 public interface IPatientRepository
 {
     Task<Patient?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<Patient>> GetAllAsync(CancellationToken cancellationToken = default); 
 }

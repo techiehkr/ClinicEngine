@@ -279,3 +279,243 @@ html, body {
     white-space: nowrap;
     border: 0;
 }
+
+/* ── Booking Page ────────────────────────────────────────────────────── */
+
+.booking-page { max-width: 1100px; margin: 0 auto; }
+
+.booking-header { margin-bottom: 1.75rem; }
+
+.booking-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.booking-subtitle {
+    color: var(--color-text-muted);
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.back-link:hover { text-decoration: underline; }
+
+/* ── Alert ───────────────────────────────────────────────────────────── */
+.alert {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.alert--success {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+/* ── Grid ────────────────────────────────────────────────────────────── */
+.booking-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+@media (max-width: 860px) {
+    .booking-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Form Card ───────────────────────────────────────────────────────── */
+.form-card {
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.form-card__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* ── Form Elements ───────────────────────────────────────────────────── */
+.form-group { margin-bottom: 1.25rem; }
+
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.4rem;
+}
+
+.required { color: var(--color-red); margin-left: 2px; }
+
+.form-control {
+    width: 100%;
+    padding: 0.6rem 0.875rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    background: var(--color-surface);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    appearance: none;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-control:disabled { background: #f1f5f9; cursor: not-allowed; }
+
+textarea.form-control { resize: vertical; min-height: 80px; }
+
+.form-hint {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+}
+
+/* ── Validation ──────────────────────────────────────────────────────── */
+.validation-summary {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: var(--radius);
+    padding: 0.875rem 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.875rem;
+    color: #991b1b;
+}
+
+.validation-summary ul { margin: 0.25rem 0 0 1rem; padding: 0; }
+.validation-summary li { margin-bottom: 0.2rem; }
+
+/* Hide the empty validation summary div when there are no errors */
+.validation-summary:empty { display: none; }
+
+.field-validation-error {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--color-red);
+    font-weight: 500;
+}
+
+/* Red border on invalid fields */
+.input-validation-error {
+    border-color: var(--color-red) !important;
+}
+
+.input-validation-error:focus {
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────── */
+.form-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.btn:active { transform: translateY(1px); }
+
+.btn--primary {
+    background: var(--color-primary);
+    color: white;
+}
+
+.btn--primary:hover { background: var(--color-primary-dark); }
+
+.btn--secondary {
+    background: var(--color-bg);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+}
+
+.btn--secondary:hover { background: var(--color-border); }
+
+/* ── Info Panel ──────────────────────────────────────────────────────── */
+.info-card {
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+}
+
+.info-card--note {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+}
+
+.info-card__title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.875rem;
+}
+
+.info-steps {
+    padding-left: 1.25rem;
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+}
+
+.info-list {
+    padding-left: 1.25rem;
+    margin: 0.5rem 0;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+}
+
+.info-note {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-top: 0.75rem;
+}
+
+.info-note a { color: var(--color-primary); }

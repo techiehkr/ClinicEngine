@@ -262,4 +262,10 @@ public sealed class PatientRepository : IPatientRepository
     {
         return await _context.Patients.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
+    public async Task<IReadOnlyList<Patient>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        return await _context.Patients
+            .OrderBy(p => p.Name)
+            .ToListAsync(cancellationToken);
+    }
 }
