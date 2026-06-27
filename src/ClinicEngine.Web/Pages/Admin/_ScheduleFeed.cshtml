@@ -1,0 +1,42 @@
+@model IReadOnlyList<ClinicEngine.Application.Common.Interfaces.TodayScheduleItemDto>
+
+@if (Model is null || !Model.Any())
+{
+    <div class="empty-state">
+        <p>No appointments are scheduled for today.</p>
+    </div>
+}
+else
+{
+    <div class="table-wrapper">
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Patient</th>
+                    <th scope="col">Doctor</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="@(item.Status == "Cancelled" ? "row--cancelled" : "")">
+                        <td>@item.AppointmentId</td>
+                        <td>@item.PatientName</td>
+                        <td>@item.DoctorName</td>
+                        <td>@item.DepartmentName</td>
+                        <td>@item.AppointmentDateTime.ToString("hh:mm tt")</td>
+                        <td>
+                            <span class="status-badge status-badge--@item.Status.ToLower()">
+                                @item.Status
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

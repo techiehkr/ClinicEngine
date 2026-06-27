@@ -1,0 +1,281 @@
+/* =========================================================
+   ClinicEngine — Site Stylesheet
+   Organised by: reset → layout → components → utilities
+   ========================================================= */
+
+/* ── Reset & Base ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --color-primary:       #2563eb;
+    --color-primary-dark:  #1d4ed8;
+    --color-green:         #059669;
+    --color-orange:        #d97706;
+    --color-red:           #dc2626;
+    --color-purple:        #7c3aed;
+    --color-bg:            #f8fafc;
+    --color-surface:       #ffffff;
+    --color-border:        #e2e8f0;
+    --color-text:          #1e293b;
+    --color-text-muted:    #64748b;
+    --radius:              8px;
+    --shadow:              0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-md:           0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+    --font-sans:           'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-mono:           'Cascadia Code', 'Fira Code', monospace;
+}
+
+html, body {
+    height: 100%;
+    font-family: var(--font-sans);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* ── Header & Navigation ─────────────────────────────── */
+.site-header {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+}
+
+.site-nav {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.site-nav__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.brand-icon {
+    width: 22px;
+    height: 22px;
+    stroke: var(--color-primary);
+}
+
+.site-nav__links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.site-nav__links a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.15s;
+}
+
+.site-nav__links a:hover { color: var(--color-primary); }
+
+/* ── Main Layout ─────────────────────────────────────── */
+.site-main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+.site-footer {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--color-border);
+}
+
+/* ── Dashboard Header ────────────────────────────────── */
+.dashboard-header {
+    margin-bottom: 1.75rem;
+}
+
+.dashboard-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.dashboard-subtitle {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+/* ── Summary Cards ───────────────────────────────────── */
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+}
+
+.card {
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow);
+    border-left: 4px solid transparent;
+}
+
+.card--blue   { border-left-color: var(--color-primary); }
+.card--green  { border-left-color: var(--color-green);   }
+.card--orange { border-left-color: var(--color-orange);  }
+.card--red    { border-left-color: var(--color-red);     }
+
+.card__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.card--blue   .card__icon { background: #eff6ff; stroke: var(--color-primary); }
+.card--green  .card__icon { background: #ecfdf5; stroke: var(--color-green);   }
+.card--orange .card__icon { background: #fffbeb; stroke: var(--color-orange);  }
+.card--red    .card__icon { background: #fef2f2; stroke: var(--color-red);     }
+
+.card__icon svg { width: 22px; height: 22px; }
+
+.card__body { display: flex; flex-direction: column; }
+
+.card__value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-text);
+}
+
+.card__label {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-top: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+}
+
+/* ── Dashboard Grid ──────────────────────────────────── */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 1.25rem;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Section ─────────────────────────────────────────── */
+.dashboard-section {
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.refresh-indicator {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+/* ── Schedule Table ──────────────────────────────────── */
+.table-wrapper { overflow-x: auto; }
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+
+.schedule-table th {
+    text-align: left;
+    padding: 0.6rem 0.875rem;
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.schedule-table td {
+    padding: 0.7rem 0.875rem;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+}
+
+.schedule-table tbody tr:last-child td { border-bottom: none; }
+.schedule-table tbody tr:hover { background: #f8fafc; }
+.schedule-table tr.row--cancelled { opacity: 0.55; }
+
+/* ── Status Badges ───────────────────────────────────── */
+.status-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-badge--booked    { background: #dbeafe; color: #1e40af; }
+.status-badge--swapped   { background: #ede9fe; color: #5b21b6; }
+.status-badge--completed { background: #d1fae5; color: #065f46; }
+.status-badge--cancelled { background: #fee2e2; color: #991b1b; }
+
+/* ── Empty State ─────────────────────────────────────── */
+.empty-state {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: 2.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* ── Accessibility ───────────────────────────────────── */
+.sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}

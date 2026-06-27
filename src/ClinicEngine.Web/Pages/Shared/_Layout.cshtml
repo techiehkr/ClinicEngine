@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Clinic Appointment Engine - Admin Dashboard" />
+    <title>@ViewData["Title"] | ClinicEngine</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="site-header">
+        <nav class="site-nav">
+            <a class="site-nav__brand" asp-page="/Admin/Dashboard">
+                <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+                ClinicEngine
+            </a>
+            <ul class="site-nav__links">
+                <li><a asp-page="/Admin/Dashboard">Dashboard</a></li>
+                <li><a href="/swagger">API Docs</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="site-main">
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <p>ClinicEngine &copy; @DateTime.Now.Year. All rights reserved.</p>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

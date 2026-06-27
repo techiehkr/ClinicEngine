@@ -1,0 +1,205 @@
+@page "/admin/dashboard"
+@model ClinicEngine.Web.Pages.Admin.DashboardModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "_Layout";
+}
+
+<div class="dashboard-header">
+    <h1 class="dashboard-title">Clinic Operations Dashboard</h1>
+    <p class="dashboard-subtitle">
+        @DateTime.Now.ToString("dddd, dd MMMM yyyy") &mdash;
+        <span id="live-clock"></span>
+    </p>
+</div>
+
+<!-- Summary Cards -->
+<div class="summary-cards">
+    <div class="card card--blue">
+        <div class="card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+        </div>
+        <div class="card__body">
+            <span class="card__value">@Model.Summary.TotalActiveDoctors</span>
+            <span class="card__label">Active Doctors</span>
+        </div>
+    </div>
+
+    <div class="card card--green">
+        <div class="card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+        </div>
+        <div class="card__body">
+            <span class="card__value">@Model.Summary.TotalAppointmentsToday</span>
+            <span class="card__label">Total Today</span>
+        </div>
+    </div>
+
+    <div class="card card--orange">
+        <div class="card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+            </svg>
+        </div>
+        <div class="card__body">
+            <span class="card__value">@Model.Summary.TodayPendingAppointments</span>
+            <span class="card__label">Pending / Booked</span>
+        </div>
+    </div>
+
+    <div class="card card--red">
+        <div class="card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="15" y1="9" x2="9" y2="15"/>
+                <line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+        </div>
+        <div class="card__body">
+            <span class="card__value">@Model.Summary.TodayCancelledSlots</span>
+            <span class="card__label">Cancelled Today</span>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content Grid -->
+<div class="dashboard-grid">
+
+    <!-- Live Schedule Feed -->
+    <section class="dashboard-section dashboard-section--wide">
+        <div class="section-header">
+            <h2 class="section-title">Today's Appointment Schedule</h2>
+            <span class="refresh-indicator" id="refresh-indicator">
+                Auto-refreshes every 30s
+            </span>
+        </div>
+        <div id="schedule-feed-container">
+            @await Html.PartialAsync("_ScheduleFeed", Model.TodaySchedule)
+        </div>
+    </section>
+
+    <!-- Department Analytics -->
+    <section class="dashboard-section">
+        <h2 class="section-title">Department-wise Bookings</h2>
+
+        @if (Model.DepartmentStats.Any())
+        {
+           
+            <canvas id="departmentChart" height="260" aria-label="Department booking statistics chart"></canvas>
+
+        
+            <table class="sr-only">
+                <caption>Department Booking Statistics</caption>
+                <thead><tr><th>Department</th><th>Total Bookings</th></tr></thead>
+                <tbody>
+                @foreach (var stat in Model.DepartmentStats)
+                {
+                    <tr><td>@stat.DepartmentName</td><td>@stat.TotalBookings</td></tr>
+                }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="empty-state">No booking data available for today.</p>
+        }
+    </section>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+      
+        function updateClock() {
+            const clock = document.getElementById('live-clock');
+            if (clock) {
+                clock.textContent = new Date().toLocaleTimeString('en-IN', {
+                    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+                });
+            }
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+       
+        async function refreshScheduleFeed() {
+            const indicator = document.getElementById('refresh-indicator');
+            try {
+                indicator.textContent = 'Refreshing...';
+                const response = await fetch('/admin/dashboard?handler=ScheduleFeed', {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+                if (response.ok) {
+                    const html = await response.text();
+                    document.getElementById('schedule-feed-container').innerHTML = html;
+                    indicator.textContent = 'Updated ' + new Date().toLocaleTimeString('en-IN');
+                } else {
+                    indicator.textContent = 'Refresh failed - retrying...';
+                }
+            } catch {
+                indicator.textContent = 'Network error - retrying...';
+            }
+        }
+        setInterval(refreshScheduleFeed, 30000);
+
+        
+        const departmentData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+            Model.DepartmentStats.Select(s => new { label = s.DepartmentName, value = s.TotalBookings })
+        ));
+
+        if (departmentData.length > 0) {
+            const ctx = document.getElementById('departmentChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: departmentData.map(d => d.label),
+                    datasets: [{
+                        label: 'Total Bookings',
+                        data: departmentData.map(d => d.value),
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(239, 68, 68, 0.8)',
+                            'rgba(139, 92, 246, 0.8)'
+                        ],
+                        borderRadius: 6,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => `${ctx.parsed.y} booking${ctx.parsed.y !== 1 ? 's' : ''}`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1, precision: 0 },
+                            grid: { color: 'rgba(0,0,0,0.05)' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+}
